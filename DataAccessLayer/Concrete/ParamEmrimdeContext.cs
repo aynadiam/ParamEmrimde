@@ -12,7 +12,7 @@ namespace DataAccessLayer.Concrete
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=85.95.237.229\\MSSQLSERVER2016; Database=benimsql; Uid=benimsql; Password=Az*3315+; Trusted_Connection=False; MultipleActiveResultSets=True;");
+            optionsBuilder.UseSqlServer("Server=**.**.***.***\\MSSQLSERVER2016; Database=*****sql; Uid=******sql; Password=**********; Trusted_Connection=False; MultipleActiveResultSets=True;");
         }
 
         public DbSet<Kalem> Kalems { get; set; }
