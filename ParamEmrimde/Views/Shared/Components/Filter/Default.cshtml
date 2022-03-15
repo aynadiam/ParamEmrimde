@@ -1,0 +1,41 @@
+﻿<div class="theme-setting-wrapper">
+    <div id="settings-trigger"><i class="typcn typcn-cog-outline"></i></div>
+    <div id="theme-settings" class="settings-panel">
+        <i class="settings-close typcn typcn-delete-outline"></i>
+        <p class="settings-heading mt-2">FİLTRELE</p>
+        <div class="color-tiles mx-0 px-4">
+            <form class="form-group" method="get" id="filter">
+                <input type="text" autocomplete="off" id="datepicker1" class="form-control mb-3" value="@(ViewBag.tarihKucuk==null ? "" : (Convert.ToDateTime(ViewBag.tarihKucuk).ToString("dd.MM.yyyy")))" placeholder="Başlangıç Tarihi">
+                <input type="hidden" id="tarih-db1" name="tarihKucuk" value="@(ViewBag.tarihKucuk==null ? "" : (Convert.ToDateTime(ViewBag.tarihKucuk).ToString("MM.dd.yyyy")))">
+                <input type="text" autocomplete="off" id="datepicker2" class="form-control mb-3" value="@(ViewBag.tarihBuyuk==null ? "" : (Convert.ToDateTime(ViewBag.tarihBuyuk).ToString("dd.MM.yyyy")))" placeholder="Bitiş Tarihi">
+                <input type="hidden" id="tarih-db2" name="tarihBuyuk" value="@(ViewBag.tarihBuyuk==null ? "" : (Convert.ToDateTime(ViewBag.tarihBuyuk).ToString("MM.dd.yyyy")))">
+                <select class="form-control mb-3" name="kalem" asp-items="ViewBag.KatKalem">
+                    <option value="">Kalem Seçiniz...</option>
+                </select>
+                @if (ViewBag.kalem != null)
+                {
+                    <select class="form-control mb-3" name="kategori" asp-items="ViewBag.KategoriList">
+                        <option value="">Kategori Seçiniz...</option>
+                    </select>
+                }
+                <input type="text" class="form-control mb-3" name="aciklama" placeholder="Açıklamada Ara" value="@ViewData["aciklama"]">
+                <div class="custom-control custom-checkbox mb-2">
+                    <input name="krediKarti" id="krediKarti" type="checkbox" class="custom-control-input" checked="@ViewBag.krediKarti">
+                    <label class="custom-control-label" for="krediKarti">Kredi Kartı İle Yapılanlar</label>
+                </div>
+                <div class="custom-control custom-checkbox mb-2">
+                    <input name="borcOde" id="borcOde" type="checkbox" class="custom-control-input" checked="@ViewBag.borcOde">
+                    <label class="custom-control-label" for="borcOde">Ödenmiş Borçlar</label>
+                </div>
+                <button type="submit" class="btn btn-dark mb-3">Filtrele</button>
+                <a href="/" class="btn btn-light mb-3">Temizle</a>
+            </form>
+        </div>
+        <p class="settings-heading">YARDIM</p>
+        <div class="color-tiles mx-0 px-4">
+            <p class="text-gray">
+                Üstteki kısımlardan istediğiniz birinden yada tamamından filtreleme yaptırabilirsiniz.
+            </p>
+        </div>
+    </div>
+</div>

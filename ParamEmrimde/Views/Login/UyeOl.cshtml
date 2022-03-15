@@ -1,0 +1,84 @@
+﻿@model Uye
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Param Emrimde - Üye Ol</title>
+    <link rel="stylesheet" href="~/css/font/typicons.css" />
+    <link rel="stylesheet" href="~/css/vendor.bundle.base.css" />
+    <link rel="stylesheet" href="~/css/style.css" />
+    <link rel="shortcut icon" href="~/img/favicon.png" />
+</head>
+
+<body>
+    <div class="container-scroller">
+        <div class="container-fluid page-body-wrapper full-page-wrapper">
+            <div class="content-wrapper d-flex align-items-center auth px-0">
+                <div class="row w-100 mx-0">
+                    <div class="col-lg-4 mx-auto">
+                        <div class="auth-form-light text-left py-5 px-4 px-sm-5">
+                            <div class="brand-logo">
+                                <img src="~/img/logo.png" alt="logo" />
+                            </div>
+                            <h4>Burada Yenimisin?</h4>
+                            <h6 class="font-weight-light">Kaydolmak kolaydır. Sadece birkaç adım sürer</h6>
+                            <form class="pt-3" asp-action="UyeOl">
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-lg" asp-for="UyeAdi" placeholder="Adınız" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-lg" asp-for="UyeSoyadi" placeholder="Soyadınız" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="email" class="form-control form-control-lg" asp-for="UyeEposta" placeholder="E-Posta" required>
+                                    <h1 class="h4 text-danger mb-4">@ViewBag.Mesaj</h1>
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" class="form-control form-control-lg" asp-for="UyeSifre" placeholder="Şifreniz" required>
+                                </div>
+                                <div class="mb-4">
+                                    <div class="form-check">
+                                        <label class="form-check-label text-muted">
+                                            <input type="checkbox" class="form-check-input">
+                                            Tüm Şartlar ve Koşulları kabul ediyorum
+                                        </label>
+                                    </div>
+                                </div>
+                                @if (TempData["Success"] != null)
+                                {
+                                    <div class="text-center mt-4 font-weight-light">
+                                        @TempData["Success"].ToString() <a asp-controller="Login" asp-action="Index" class="text-success">Giriş Yap</a>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="mt-3">
+                                        <input type="submit" value="BİLGİLERİMİ KAYDET" class="btn btn-block btn-success btn-lg font-weight-medium auth-form-btn" />
+                                    </div>
+                                    <div class="text-center mt-4 font-weight-light">
+                                        Zaten hesabınız var mı? <a asp-controller="Login" asp-action="Index" class="text-success">Giriş Yap</a>
+                                    </div>
+                                }
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/js/vendor.bundle.base.js"></script>
+    <script src="~/js/off-canvas.js"></script>
+    <script src="~/js/hoverable-collapse.js"></script>
+    <script src="~/js/template.js"></script>
+    <script src="~/js/settings.js"></script>
+    <script src="~/js/todolist.js"></script>
+</body>
+
+</html>

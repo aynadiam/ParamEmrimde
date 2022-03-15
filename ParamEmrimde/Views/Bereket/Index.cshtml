@@ -1,0 +1,202 @@
+﻿@model IEnumerable<Kasa>
+
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="row">
+                    <div class="col-6 col-lg-3">
+                        <div class="card-body">
+                            <h4 class="card-title text-success">Gelir</h4>
+                            <p class="display-5 text-success">
+                                @((ViewBag.Gelir).ToString("#,##0.00")) ₺
+                            </p>
+                            <div class="template-demo">
+                                <button type="button" class="btn btn-success btn-icon-text btn-sm" data-toggle="modal" id="gelirEkleButon">
+                                    <i class="typcn typcn-plus btn-icon-prepend"></i>
+                                    Ekle
+                                </button>
+                                <div class="modal fade" id="gelirEkleModal" role="dialog" data-url='@Url.Action("PartialGelirEkleModal","Bereket")'></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3">
+                        <div class="card-body">
+                            <h4 class="card-title text-warning">Gider</h4>
+                            <p class="display-5 text-warning">
+                                @((ViewBag.Gider).ToString("#,##0.00")) ₺
+                            </p>
+                            <div class="template-demo">
+                                <button type="button" class="btn btn-warning btn-icon-text btn-sm" data-toggle="modal" id="giderEkleButon">
+                                    <i class="typcn typcn-plus btn-icon-prepend"></i>
+                                    Ekle
+                                </button>
+                                <div class="modal fade" id="giderEkleModal" role="dialog" data-url='@Url.Action("PartialGiderEkleModal","Bereket")'></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3">
+                        <div class="card-body">
+                            <h4 class="card-title text-info">Tasarruf</h4>
+                            <p class="display-5 text-info">
+                                @((ViewBag.Tasarruf).ToString("#,##0.00")) ₺
+                            </p>
+                            <div class="template-demo">
+                                <button type="button" class="btn btn-info btn-icon-text btn-sm" data-toggle="modal" id="tasarrufEkleButon">
+                                    <i class="typcn typcn-plus btn-icon-prepend"></i>
+                                    Ekle
+                                </button>
+                                <div class="modal fade" id="tasarrufEkleModal" role="dialog" data-url='@Url.Action("PartialTasarrufEkleModal","Bereket")'></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3">
+                        <div class="card-body">
+                            <h4 class="card-title text-primary">Borç</h4>
+                            <p class="display-5 text-primary">
+                                @((ViewBag.Borc).ToString("#,##0.00")) ₺
+                            </p>
+                            <div class="template-demo">
+                                <button type="button" class="btn btn-primary btn-icon-text btn-sm" data-toggle="modal" id="borcEkleButon">
+                                    <i class="typcn typcn-plus btn-icon-prepend"></i>
+                                    Ekle
+                                </button>
+                                <div class="modal fade" id="borcEkleModal" role="dialog" data-url='@Url.Action("PartialBorcEkleModal","Bereket")'></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 grid-margin stretch-card">
+            <div class="card bg-secondary">
+                <div class="card-body text-center">
+                    <h1 class="text-white">Kalan : @((ViewBag.Kalan).ToString("#,##0.00")) ₺</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover" id="myTable" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th hidden>Tarih</th>
+                                    <th>Tarih</th>
+                                    <th>Ne</th>
+                                    <th>Açıklama</th>
+                                    <th>Tutar</th>
+                                    <th>Düzenle</th>
+                                    <th>Sil</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr class="@(item.Kat.KalemId==1?"text-success":item.Kat.KalemId==2?"text-warning":item.Kat.KalemId==3?"text-info":"text-primary")">
+                                        <td hidden>@item.KasaTarih.ToString("yyyy-MM-dd")</td>
+                                        <td>@item.KasaTarih.ToString("dd.MM.yyyy")</td>
+                                        <td>@item.Kat.KatAdi</td>
+                                        <td>@item.KasaAciklama</td>
+                                        <td>@item.KasaTutar.ToString("###0.00") ₺</td>
+                                        <td>
+                                            <a class="@(item.Kat.KalemId==1?"text-success":item.Kat.KalemId==2?"text-warning":item.Kat.KalemId==3?"text-info":"text-primary")" href="@(item.Kat.KalemId==1?"#editGelirModal":item.Kat.KalemId==2?"#editGiderModal":item.Kat.KalemId==3?"#editTasarrufModal":"#editBorcModal")" id="edit" data-toggle="modal">
+                                                <input type="hidden" class="id" value="@item.KasaId" />
+                                                <input type="hidden" class="kalemid" value="@item.Kat.KalemId" />
+                                                <i class="typcn typcn-edit btn-icon-prepend" data-toggle="tooltip" title="Düzenle"></i>
+                                            </a>
+
+
+                                            <button type="button" class="text-success" data-toggle="modal" id="gelirDuzenleButon">
+                                                <i class="typcn typcn-edit btn-icon-prepend"></i>
+                                            </button>
+                                            <div class="modal fade" id="gelirDuzenleModal" role="dialog" data-url='@Url.Action("PartialGelirDuzenleModal","Bereket",item.KasaId)'></div>
+
+                                            @if (item.Kat.KalemId == 4)
+                                            {
+                                                <span class="text-black-50">|</span>
+                                                <a class="text-primary" href="#odeBorcModal" id="ode" data-toggle="modal">
+                                                    <input type="hidden" class="id" value="@item.KasaId" />
+                                                    <input type="hidden" class="kalemid" value="@item.Kat.KalemId" />
+                                                    <i class="typcn typcn-archive btn-icon-prepend" data-toggle="tooltip" title="Borç Öde"></i>
+                                                </a>
+                                            }
+                                        </td>
+                                        <td>
+                                            <a class="@(item.Kat.KalemId==1?"text-success":item.Kat.KalemId==2?"text-warning":item.Kat.KalemId==3?"text-info":"text-primary")" href="#deleteGelirModal" id="delete" data-toggle="modal">
+                                                <input type="hidden" class="id" value="@item.KasaId" />
+                                                <i class="typcn typcn-delete btn-icon-prepend" data-toggle="tooltip" title="Sil"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            //Datatable biçimlendirdim
+            $('#myTable').DataTable({
+                "lengthMenu": [[25, 50, -1], [25, 50, "Tümü"]],
+                "order": [[0, "desc"]],
+                "language": { "url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Turkish.json" }
+            });
+
+            $('#gelirEkleButon').click(function () {
+                var url = $('#gelirEkleModal').data('url');
+                $.get(url, function (data) {
+                    $("#gelirEkleModal").html(data);
+                    $("#gelirEkleModal").modal('show');
+                });
+            });
+
+            $('#giderEkleButon').click(function () {
+                var url = $('#giderEkleModal').data('url');
+                $.get(url, function (data) {
+                    $("#giderEkleModal").html(data);
+                    $("#giderEkleModal").modal('show');
+                });
+            });
+
+            $('#tasarrufEkleButon').click(function () {
+                var url = $('#tasarrufEkleModal').data('url');
+                $.get(url, function (data) {
+                    $("#tasarrufEkleModal").html(data);
+                    $("#tasarrufEkleModal").modal('show');
+                });
+            });
+
+            $('#borcEkleButon').click(function () {
+                var url = $('#borcEkleModal').data('url');
+                $.get(url, function (data) {
+                    $("#borcEkleModal").html(data);
+                    $("#borcEkleModal").modal('show');
+                });
+            });
+
+            $('#gelirDuzenleButon').click(function () {
+                var url = $('#gelirDuzenleModal').data('url');
+                var decodeUrl = decodeURIComponent(url);
+                $.get(decodeUrl, function (data) {
+                    $("#gelirDuzenleModal").html(data);
+                    $("#gelirDuzenleModal").modal('show');
+                });
+            });
+        });
+    </script>
+}
+
+

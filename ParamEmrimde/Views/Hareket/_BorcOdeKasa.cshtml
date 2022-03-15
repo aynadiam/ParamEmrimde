@@ -1,0 +1,45 @@
+﻿@model Kasa
+
+<div class="modal fade" id="odeBorcModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><strong class="text-black">Borç Öde</strong></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="BorcOde">
+                    <div class="form-group">
+                        <input type="hidden" asp-for="@Model.KasaId" />
+                        <input asp-for="KasaTarih" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="KasaTutar" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="KasaAciklama" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <select asp-for="KatId" class="form-control form-white" asp-items="ViewBag.KatGelir" required>
+                            <option value="">--Lütfen Gider Kategorisi Seçiniz--</option>
+                        </select>
+                    </div>
+                    <div class="form-inline">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="KasaKrediKarti" /> Kredi Kartı İle Ödendi
+                        </label>
+                    </div>
+                    <div class="form-inline" hidden>
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="KasaBorcOde" checked /> Borç Ödemesi
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-dismiss="modal">Vazgeç</button>
+                <button type="button" class="btn btn-dark" data-save="modal">Kaydet</button>
+            </div>
+        </div>
+    </div>
+</div>

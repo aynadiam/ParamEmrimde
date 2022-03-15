@@ -1,0 +1,113 @@
+﻿<nav class="sidebar sidebar-offcanvas" id="sidebar">
+    <ul class="nav">
+        <li class="nav-item"><p class="sidebar-menu-title"></p></li>
+        <li class="nav-item">
+            <p class="sidebar-menu-title">Menü</p>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/Home">
+                <i class="typcn typcn-device-desktop menu-icon"></i>
+                <span class="menu-title">Anasayfa</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Kat" asp-action="Index">
+                <i class="typcn typcn-film menu-icon"></i>
+                <span class="menu-title">Kategoriler</span>
+            </a>
+        </li>
+        @if(Convert.ToInt32(User.Identity.Name) == 1)
+        { 
+            <li class="nav-item">
+            <a class="nav-link" asp-controller="Uye" asp-action="Liste">
+                <i class="typcn typcn-briefcase menu-icon"></i>
+                <span class="menu-title">Üye Listesi</span>
+            </a>
+        </li>
+        }
+        <!--
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Chart" asp-action="Index">
+                <i class="typcn typcn-briefcase menu-icon"></i>
+                <span class="menu-title">Chart</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Grafik" asp-action="Index">
+                <i class="typcn typcn-chart-pie-outline menu-icon"></i>
+                <span class="menu-title">Grafik</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Hareket" asp-action="Index">
+                <i class="typcn typcn-book menu-icon"></i>
+                <span class="menu-title">Hareketler</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Bereket" asp-action="Index">
+                <i class="typcn typcn-briefcase menu-icon"></i>
+                <span class="menu-title">Bereketler</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Param" asp-action="Index">
+                <i class="typcn typcn-briefcase menu-icon"></i>
+                <span class="menu-title">Paralar</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Anasayfa" asp-action="Index">
+                <i class="typcn typcn-briefcase menu-icon"></i>
+                <span class="menu-title">Anasayfamız</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Doviz" asp-action="Index">
+                <i class="typcn typcn-briefcase menu-icon"></i>
+                <span class="menu-title">Döviz Kurları</span>
+            </a>
+        </li>
+        -->
+    </ul>
+    <ul class="sidebar-legend">
+        <li>
+            <p class="sidebar-menu-title">Kategori</p>
+        </li>
+        <li class="nav-item"><a href="?kalem=1" class="nav-link">#Gelir</a></li>
+        <li class="nav-item"><a href="?kalem=2" class="nav-link">#Gider</a></li>
+        <li class="nav-item"><a href="?kalem=3" class="nav-link">#Tasarruf</a></li>
+        <li class="nav-item"><a href="?kalem=4" class="nav-link">#Borç</a></li>
+    </ul>
+    <ul class="sidebar-legend">
+        <li>
+            <p class="sidebar-menu-title">Dönem</p>
+        </li>
+        <li class="nav-item">
+            <a href="?tarihKucuk=@DateTime.Now.ToString("yyyy-MM")-15&tarihBuyuk=@DateTime.Now.AddMonths(1).ToString("yyyy-MM")-14" class="nav-link">
+                15 @DateTime.Now.ToString("MMMM") - 14 @DateTime.Now.AddMonths(1).ToString("MMMM")
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="?tarihKucuk=@DateTime.Now.AddMonths(-1).ToString("yyyy-MM")-15&tarihBuyuk=@DateTime.Now.ToString("yyyy-MM")-14" class="nav-link">
+                15 @DateTime.Now.AddMonths(-1).ToString("MMMM") - 14 @DateTime.Now.ToString("MMMM")
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="?tarihKucuk=@DateTime.Now.AddMonths(-2).ToString("yyyy-MM")-15&tarihBuyuk=@DateTime.Now.AddMonths(-1).ToString("yyyy-MM")-14" class="nav-link">
+                15 @DateTime.Now.AddMonths(-2).ToString("MMMM") - 14 @DateTime.Now.AddMonths(-1).ToString("MMMM")
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="?tarihKucuk=@DateTime.Now.AddMonths(-3).ToString("yyyy-MM")-15&tarihBuyuk=@DateTime.Now.AddMonths(-2).ToString("yyyy-MM")-14" class="nav-link">
+                15 @DateTime.Now.AddMonths(-3).ToString("MMMM") - 14 @DateTime.Now.AddMonths(-2).ToString("MMMM")
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="?tarihKucuk=@((ViewBag.IlkTarih))&tarihBuyuk=@ViewBag.SonTarih" class="nav-link">
+                Tümü
+            </a>
+        </li>
+    </ul>
+</nav>

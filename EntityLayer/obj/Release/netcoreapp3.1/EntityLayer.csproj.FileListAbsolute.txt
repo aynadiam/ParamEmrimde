@@ -1,0 +1,10 @@
+C:\Users\Aydın\YandexDisk\WebCore\ParamEmrimde\EntityLayer\bin\Release\netcoreapp3.1\EntityLayer.deps.json
+C:\Users\Aydın\YandexDisk\WebCore\ParamEmrimde\EntityLayer\bin\Release\netcoreapp3.1\EntityLayer.dll
+C:\Users\Aydın\YandexDisk\WebCore\ParamEmrimde\EntityLayer\bin\Release\netcoreapp3.1\EntityLayer.pdb
+C:\Users\Aydın\YandexDisk\WebCore\ParamEmrimde\EntityLayer\obj\Release\netcoreapp3.1\EntityLayer.csproj.AssemblyReference.cache
+C:\Users\Aydın\YandexDisk\WebCore\ParamEmrimde\EntityLayer\obj\Release\netcoreapp3.1\EntityLayer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Aydın\YandexDisk\WebCore\ParamEmrimde\EntityLayer\obj\Release\netcoreapp3.1\EntityLayer.AssemblyInfoInputs.cache
+C:\Users\Aydın\YandexDisk\WebCore\ParamEmrimde\EntityLayer\obj\Release\netcoreapp3.1\EntityLayer.AssemblyInfo.cs
+C:\Users\Aydın\YandexDisk\WebCore\ParamEmrimde\EntityLayer\obj\Release\netcoreapp3.1\EntityLayer.csproj.CoreCompileInputs.cache
+C:\Users\Aydın\YandexDisk\WebCore\ParamEmrimde\EntityLayer\obj\Release\netcoreapp3.1\EntityLayer.dll
+C:\Users\Aydın\YandexDisk\WebCore\ParamEmrimde\EntityLayer\obj\Release\netcoreapp3.1\EntityLayer.pdb

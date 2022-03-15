@@ -1,0 +1,39 @@
+﻿@model Kasa
+
+<div class="modal fade" id="addEmployee">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="addEmployeeLabel">Edit Employee</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>x</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="Edit">
+                    <div class="form-group">
+                        <input type="hidden" asp-for="@Model.KasaId" />
+                        <label asp-for="KasaTarih"></label>
+                        <input asp-for="KasaTarih" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="KatId"></label>
+                        <input asp-for="KatId" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="KasaTutar"></label>
+                        <input asp-for="KasaTutar" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="KasaAciklama"></label>
+                        <input asp-for="KasaAciklama" class="form-control" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-save="modal">Update</button>
+            </div>
+        </div>
+    </div>
+</div>

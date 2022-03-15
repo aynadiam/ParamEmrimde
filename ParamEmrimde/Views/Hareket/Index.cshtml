@@ -1,0 +1,470 @@
+﻿@model HareketViewModel
+
+@{
+    ViewData["Title"] = "Hareketler";
+}
+
+<div id="PlaceHolderHere"></div>
+
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="row">
+                    <div class="col-6 col-lg-3">
+                        <div class="card-body">
+                            <h4 class="card-title text-success">Gelir</h4>
+                            <p class="display-5 text-success">
+                                @((ViewBag.Gelir).ToString("#,##0.00")) ₺
+                            </p>
+                            <div class="template-demo">
+                                <button type="button" class="btn btn-success btn-icon-text btn-sm" data-toggle="modal" href="#GelirEkleModal">
+                                    <i class="typcn typcn-plus btn-icon-prepend"></i>
+                                    Ekle
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3">
+                        <div class="card-body">
+                            <h4 class="card-title text-warning">Gider</h4>
+                            <p class="display-5 text-warning">
+                                @((ViewBag.Gider).ToString("#,##0.00")) ₺
+                            </p>
+                            <div class="template-demo">
+                                <button type="button" class="btn btn-warning btn-icon-text btn-sm" data-toggle="modal" href="#GiderEkleModal">
+                                    <i class="typcn typcn-plus btn-icon-prepend"></i>
+                                    Ekle
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3">
+                        <div class="card-body">
+                            <h4 class="card-title text-info">Tasarruf</h4>
+                            <p class="display-5 text-info">
+                                @((ViewBag.Tasarruf).ToString("#,##0.00")) ₺
+                            </p>
+                            <div class="template-demo">
+                                <button type="button" class="btn btn-info btn-icon-text btn-sm" data-toggle="modal" href="#TasarrufEkleModal">
+                                    <i class="typcn typcn-plus btn-icon-prepend"></i>
+                                    Ekle
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3">
+                        <div class="card-body">
+                            <h4 class="card-title text-primary">Borç</h4>
+                            <p class="display-5 text-primary">
+                                @((ViewBag.Borc).ToString("#,##0.00")) ₺
+                            </p>
+                            <div class="template-demo">
+                                <button type="button" class="btn btn-primary btn-icon-text btn-sm" data-toggle="modal" href="#BorcEkleModal">
+                                    <i class="typcn typcn-plus btn-icon-prepend"></i>
+                                    Ekle
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 grid-margin stretch-card">
+            <div class="card bg-secondary">
+                <div class="card-body text-center">
+                    <h1 class="text-white">Kalan : @((ViewBag.Kalan).ToString("#,##0.00")) ₺</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover" id="myTable" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th hidden>Tarih</th>
+                                    <th>Tarih</th>
+                                    <th>Ne</th>
+                                    <th>Açıklama</th>
+                                    <th>Tutar</th>
+                                    <th>Düzenle</th>
+                                    <th>Sil</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.KasaListeVm)
+                                {
+                                    <tr class="@(item.Kat.KalemId==1?"text-success":item.Kat.KalemId==2?"text-warning":item.Kat.KalemId==3?"text-info":"text-primary")">
+                                        <td hidden>@item.KasaTarih.ToString("yyyy-MM-dd")</td>
+                                        <td>@item.KasaTarih.ToString("dd.MM.yyyy")</td>
+                                        <td>@item.Kat.KatAdi</td>
+                                        <td>@item.KasaAciklama</td>
+                                        <td>@item.KasaTutar.ToString("###0.00") ₺</td>
+                                        <td>
+                                            <button class="@(item.Kat.KalemId==1?"btn btn-success btn-sm":item.Kat.KalemId==2?"btn btn-warning btn-sm":item.Kat.KalemId==3?"btn btn-info btn-sm":"btn btn-primary btn-sm")" data-toggle="ajax-modal" data-target="#duzenleKasaModal" data-url="@Url.Action($"Duzenle/{item.KasaId}")">
+                                                <i class="typcn typcn-edit btn-icon-prepend" title="Düzenle"></i>
+                                            </button>
+
+                                            @if (item.Kat.KalemId == 4)
+                                            {
+                                                <span class="text-black-50">|</span>
+                                                <button class="btn btn-primary btn-sm" data-toggle="ajax-modal" data-target="#odeBorcModal" data-url="@Url.Action($"BorcOde/{item.KasaId}")">
+                                                    <i class="typcn typcn-archive btn-icon-prepend" data-toggle="tooltip" title="Borç Öde"></i>
+                                                </button>
+                                            }
+                                        </td>
+                                        <td>
+                                            <a class="@(item.Kat.KalemId==1?"btn btn-success btn-sm":item.Kat.KalemId==2?"btn btn-warning btn-sm":item.Kat.KalemId==3?"btn btn-info btn-sm":"btn btn-primary btn-sm")" href="#deleteGelirModal" id="delete" data-toggle="modal">
+                                                <input type="hidden" class="id" value="@item.KasaId" />
+                                                <i class="typcn typcn-delete" data-toggle="tooltip" title="Sil"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Gelir Ekle Modal-->
+<div id="GelirEkleModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-controller="Hareket" asp-action="Ekle">
+                <div class="modal-header">
+                    <h4 class="modal-title"><strong class="text-success">Gelir Ekle</strong></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input asp-for="KasaEkleVm.KasaTarih" class="form-control form-white" required>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <select asp-for="KasaEkleVm.KatId" class="form-control form-control-lg" asp-items="ViewBag.KatGelir" required>
+                                <option value="">Kategori Seçiniz...</option>
+                            </select>
+                            <div class="input-group-append">
+                                <button class="btn btn-sm btn-success" data-toggle="modal" href="#GelirKategorisiEkleModal">
+                                    <i class="typcn typcn-plus" title="Kategori Ekle"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="KasaEkleVm.KasaTutar" class="form-control form-white" placeholder="Tutar Giriniz" required>
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="KasaEkleVm.KasaAciklama" class="form-control form-white" placeholder="Açıklama" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-light waves-effect" data-dismiss="modal" value="Kapat">
+                    <input type="submit" class="btn btn-success save-event waves-effect waves-light" value="Ekle">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Gelir Kategori Ekle Modal -->
+<div id="GelirKategorisiEkleModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-controller="Hareket" asp-action="EkleKat">
+                <div class="modal-header">
+                    <h4 class="modal-title"><strong class="text-success">Gelir Kategorisi Ekle</strong></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input asp-for="KatEkleVm.KatAdi" class="form-control form-white" placeholder="Kategori Adı" required />
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="KatEkleVm.KalemId" class="form-control form-white" value="1" hidden />
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="KatEkleVm.UyeId" class="form-control form-white" value="@Context.Request.Cookies["uyeid"]" hidden />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-light waves-effect" data-dismiss="modal" value="Kapat">
+                    <input type="submit" class="btn btn-success save-event waves-effect waves-light" value="Ekle">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Gider Ekle Modal-->
+<div id="GiderEkleModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-controller="Hareket" asp-action="Ekle">
+                <div class="modal-header">
+                    <h4 class="modal-title"><strong class="text-warning">Gider Ekle</strong></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input asp-for="KasaEkleVm.KasaTarih" class="form-control form-white" required>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <select asp-for="KasaEkleVm.KatId" class="form-control form-control-lg" asp-items="ViewBag.KatGider" required>
+                                <option value="">Kategori Seçiniz...</option>
+                            </select>
+                            <div class="input-group-append">
+                                <button class="btn btn-sm btn-warning" data-toggle="modal" href="#GiderKategorisiEkleModal">
+                                    <i class="typcn typcn-plus" title="Kategori Ekle"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="KasaEkleVm.KasaTutar" class="form-control form-white" placeholder="Tutar Giriniz" required>
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="KasaEkleVm.KasaAciklama" class="form-control form-white" placeholder="Açıklama" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-light waves-effect" data-dismiss="modal" value="Kapat">
+                    <input type="submit" class="btn btn-warning save-event waves-effect waves-light" value="Ekle">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Gider Kategori Ekle Modal -->
+<div id="GiderKategorisiEkleModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-controller="Hareket" asp-action="EkleKat">
+                <div class="modal-header">
+                    <h4 class="modal-title"><strong class="text-warning">Gider Kategorisi Ekle</strong></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input asp-for="KatEkleVm.KatAdi" class="form-control form-white" placeholder="Kategori Adı" required />
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="KatEkleVm.KalemId" class="form-control form-white" value="2" hidden />
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="KatEkleVm.UyeId" class="form-control form-white" value="@Context.Request.Cookies["uyeid"]" hidden />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-light waves-effect" data-dismiss="modal" value="Kapat">
+                    <input type="submit" class="btn btn-warning save-event waves-effect waves-light" value="Ekle">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Tasarruf Ekle Modal-->
+<div id="TasarrufEkleModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-controller="Hareket" asp-action="Ekle">
+                <div class="modal-header">
+                    <h4 class="modal-title"><strong class="text-info">Tasarruf Ekle</strong></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input asp-for="KasaEkleVm.KasaTarih" class="form-control form-white" required>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <select asp-for="KasaEkleVm.KatId" class="form-control form-control-lg" asp-items="ViewBag.KatTasarruf" required>
+                                <option value="">Kategori Seçiniz...</option>
+                            </select>
+                            <div class="input-group-append">
+                                <button class="btn btn-sm btn-info" data-toggle="modal" href="#TasarrufKategorisiEkleModal">
+                                    <i class="typcn typcn-plus" title="Kategori Ekle"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="KasaEkleVm.KasaTutar" class="form-control form-white" placeholder="Tutar Giriniz" required>
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="KasaEkleVm.KasaAciklama" class="form-control form-white" placeholder="Açıklama" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-light waves-effect" data-dismiss="modal" value="Kapat">
+                    <input type="submit" class="btn btn-info save-event waves-effect waves-light" value="Ekle">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Tasarruf Kategori Ekle Modal -->
+<div id="TasarrufKategorisiEkleModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-controller="Hareket" asp-action="EkleKat">
+                <div class="modal-header">
+                    <h4 class="modal-title"><strong class="text-info">Tasarruf Kategorisi Ekle</strong></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input asp-for="KatEkleVm.KatAdi" class="form-control form-white" placeholder="Kategori Adı" required />
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="KatEkleVm.KalemId" class="form-control form-white" value="3" hidden />
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="KatEkleVm.UyeId" class="form-control form-white" value="@Context.Request.Cookies["uyeid"]" hidden />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-light waves-effect" data-dismiss="modal" value="Kapat">
+                    <input type="submit" class="btn btn-info save-event waves-effect waves-light" value="Ekle">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Borc Ekle Modal-->
+<div id="BorcEkleModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-controller="Hareket" asp-action="Ekle">
+                <div class="modal-header">
+                    <h4 class="modal-title"><strong class="text-primary">Borc Ekle</strong></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input asp-for="KasaEkleVm.KasaTarih" class="form-control form-white" required>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <select asp-for="KasaEkleVm.KatId" class="form-control form-control-lg" asp-items="ViewBag.KatBorc" required>
+                                <option value="">Kategori Seçiniz...</option>
+                            </select>
+                            <div class="input-group-append">
+                                <button class="btn btn-sm btn-primary" data-toggle="modal" href="#BorcKategorisiEkleModal">
+                                    <i class="typcn typcn-plus" title="Kategori Ekle"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="KasaEkleVm.KasaTutar" class="form-control form-white" placeholder="Tutar Giriniz" required>
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="KasaEkleVm.KasaAciklama" class="form-control form-white" placeholder="Açıklama" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-light waves-effect" data-dismiss="modal" value="Kapat">
+                    <input type="submit" class="btn btn-primary save-event waves-effect waves-light" value="Ekle">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Borc Kategori Ekle Modal -->
+<div id="BorcKategorisiEkleModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-controller="Hareket" asp-action="EkleKat">
+                <div class="modal-header">
+                    <h4 class="modal-title"><strong class="text-primary">Borc Kategorisi Ekle</strong></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input asp-for="KatEkleVm.KatAdi" class="form-control form-white" placeholder="Kategori Adı" required />
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="KatEkleVm.KalemId" class="form-control form-white" value="4" hidden />
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="KatEkleVm.UyeId" class="form-control form-white" value="@Context.Request.Cookies["uyeid"]" hidden />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-light waves-effect" data-dismiss="modal" value="Kapat">
+                    <input type="submit" class="btn btn-primary save-event waves-effect waves-light" value="Ekle">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Delete Modal Hepsi -->
+<div id="deleteGelirModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-controller="Hareket" asp-action="Sil">
+                <div class="modal-header">
+                    <h4 class="modal-title">Sil</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Bu Kaydı silmek istediğinizden emin misiniz?</p>
+                    <p class="text-warning"><small>Bu işlem geri alınamaz.</small></p>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-light" data-dismiss="modal" value="Vazgeç">
+                    <input type="submit" class="btn btn-danger" value="Sil">
+                    <input type="hidden" id="id" name="id" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            //Datatable biçimlendirdim
+            $('#myTable').DataTable({
+                "lengthMenu": [[25, 50, -1], [25, 50, "Tümü"]],
+                "order": [[0, "desc"]],
+                "language": { "url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Turkish.json" }
+            });
+
+            var PlaceHolderElement = $('#PlaceHolderHere');
+            $('button[data-toggle="ajax-modal"]').click(function (event) {
+                var url = $(this).data('url');
+                var decodedUrl = decodeURIComponent(url);
+                $.get(decodedUrl).done(function (data) {
+                    PlaceHolderElement.html(data);
+                    PlaceHolderElement.find('.modal').modal('show');
+                })
+            });
+
+            PlaceHolderElement.on('click', '[data-save="modal"]', function (event) {
+                var form = $(this).parents('.modal').find('form');
+                var actionUrl = form.attr('action');
+                var sendData = form.serialize();
+                $.post(actionUrl, sendData).done(function (data) {
+                    PlaceHolderElement.find('.modal').modal('hide');
+                })
+            });
+
+            $('table #delete').on('click', function () {
+                var id = $(this).parent().find('.id').val();
+                $('#deleteGelirModal #id').val(id);
+            });
+
+            $('#PlaceHolderHere').on('hidden.bs.modal', function () {
+                location.reload();
+            });
+
+        });
+    </script>
+}
+

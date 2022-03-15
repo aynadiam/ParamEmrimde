@@ -1,0 +1,481 @@
+﻿@model List<KatToplam>
+
+@{
+    ViewData["Title"] = "Kategoriler";
+}
+
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="row">
+                    <div class="col-6 col-lg-3">
+                        <div class="card-body">
+                            <h4 class="card-title text-success">Gelir</h4>
+                            <p class="display-5 text-success">
+                                @((ViewBag.Gelir).ToString("#,##0.00")) ₺
+                            </p>
+                            <div class="template-demo">
+                                <button type="button" class="btn btn-success btn-icon-text btn-sm" data-toggle="modal" href="#addGelirKatModal">
+                                    <i class="typcn typcn-plus btn-icon-prepend"></i>
+                                    Ekle
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3">
+                        <div class="card-body">
+                            <h4 class="card-title text-warning">Gider <a class="text-warning" data-toggle="modal" href="#GiderDetayModal">&raquo;</a></h4>
+                            <p class="display-5 text-warning">
+                                @((ViewBag.Gider).ToString("#,##0.00")) ₺
+                            </p>
+                            <div class="template-demo">
+                                <button type="button" class="btn btn-warning btn-icon-text btn-sm" data-toggle="modal" href="#addGiderKatModal">
+                                    <i class="typcn typcn-plus btn-icon-prepend"></i>
+                                    Ekle
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3">
+                        <div class="card-body">
+                            <h4 class="card-title text-info">Tasarruf</h4>
+                            <p class="display-5 text-info">
+                                @((ViewBag.Tasarruf).ToString("#,##0.00")) ₺
+                            </p>
+                            <div class="template-demo">
+                                <button type="button" class="btn btn-info btn-icon-text btn-sm" data-toggle="modal" href="#addTasarrufKatModal">
+                                    <i class="typcn typcn-plus btn-icon-prepend"></i>
+                                    Ekle
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3">
+                        <div class="card-body">
+                            <h4 class="card-title text-primary">Borç</h4>
+                            <p class="display-5 text-primary">
+                                @((ViewBag.Borc).ToString("#,##0.00")) ₺
+                            </p>
+                            <div class="template-demo">
+                                <button type="button" class="btn btn-primary btn-icon-text btn-sm" data-toggle="modal" href="#addBorcKatModal">
+                                    <i class="typcn typcn-plus btn-icon-prepend"></i>
+                                    Ekle
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 grid-margin stretch-card">
+            <div class="card bg-secondary">
+                <div class="card-body text-center">
+                    <h1 class="text-white">Kalan : @((ViewBag.Kalan).ToString("#,##0.00")) ₺</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <canvas id="pieChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <canvas id="barChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+
+                        <table class="table table-hover" id="myTable" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Kalem</th>
+                                    <th>Adı</th>
+                                    <th>Toplam</th>
+                                    <th>Dolar</th>
+                                    <th>Euro</th>
+                                    <th>Düzenle</th>
+                                    <th>Sil</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr class="@(item.KalemId==1?"text-success":item.KalemId==2?"text-warning":item.KalemId==3?"text-info":"text-primary")">
+                                        <td>@item.KalemAdi</td>
+                                        <td>@item.KatAdi</td>
+                                        <td>
+                                            @item.Toplam&nbsp;₺
+                                            @if (item.KalemId == 2)
+                                            {
+                                                <a class="text-warning" data-toggle="modal" href="#GiderDetayModal"><i class="typcn typcn-business-card" title="Kredi Kartı Harcamaları Dahil"></i></a>
+                                            }
+                                        </td>
+                                        <td>@item.ToplamDolar&nbsp;$</td>
+                                        <td>@item.ToplamEuro&nbsp;€</td>
+                                        <td>
+                                            <a class="@(item.KalemId==1?"btn btn-success btn-sm":item.KalemId==2?"btn btn-warning btn-sm":item.KalemId==3?"btn btn-info btn-sm":"btn btn-primary btn-sm")" href="#editGelirModal" id="edit" data-toggle="modal">
+                                                <input type="hidden" class="id" value="@item.KatId" />
+                                                <input type="hidden" class="kalemid" value="@item.KalemId" />
+                                                <i class="typcn typcn-edit btn-icon-prepend" data-toggle="tooltip" title="Düzenle"></i>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            @if (item.Toplam > 0)
+                                            {
+                                                <a class="@(item.KalemId==1?"btn btn-success btn-sm":item.KalemId==2?"btn btn-warning btn-sm":item.KalemId==3?"btn btn-info btn-sm":"btn btn-primary btn-sm")" href="#deleteGelirModalHayir" id="delete" data-toggle="modal">
+                                                    <input type="hidden" class="id" value="@item.KatId" />
+                                                    <i class="typcn typcn-delete btn-icon-prepend" data-toggle="tooltip" title="Sil"></i>
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a class="@(item.KalemId==1?"btn btn-success btn-sm":item.KalemId==2?"btn btn-warning btn-sm":item.KalemId==3?"btn btn-info btn-sm":"btn btn-primary btn-sm")" href="#deleteGelirModal" id="delete" data-toggle="modal">
+                                                    <input type="hidden" class="id" value="@item.KatId" />
+                                                    <i class="typcn typcn-delete btn-icon-prepend" data-toggle="tooltip" title="Sil"></i>
+                                                </a>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Modal Gelir Kategori -->
+<div id="addGelirKatModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-action="EkleKat">
+                <div class="modal-header">
+                    <h4 class="modal-title"><strong class="text-success">Gelir Kategorisi Ekle</strong></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input name="kalemId" value="1" hidden />
+                        <input name="katAdi" class="form-control form-white" placeholder="Kategori Adı" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-light waves-effect" data-dismiss="modal" value="Kapat">
+                    <input type="submit" class="btn btn-success save-event waves-effect waves-light" value="Ekle">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Add Modal Gider Kategori -->
+<div id="addGiderKatModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-action="EkleKat">
+                <div class="modal-header">
+                    <h4 class="modal-title"><strong class="text-warning">Gider Kategorisi Ekle</strong></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input name="kalemId" value="2" hidden />
+                        <input name="katAdi" class="form-control form-white" placeholder="Kategori Adı" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-light waves-effect" data-dismiss="modal" value="Kapat">
+                    <input type="submit" class="btn btn-warning save-event waves-effect waves-light" value="Ekle">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Gider Detay Modal-->
+<div id="GiderDetayModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><strong class="text-warning">Gider Detay</strong></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Peşin</label> :
+                    <label>@((ViewBag.Gider).ToString("#,##0.00")) ₺</label>
+                </div>
+                <div class="form-group">
+                    <label>Kredi Kart</label> :
+                    <label>@((ViewBag.GiderKredi).ToString("#,##0.00")) ₺</label>
+                </div>
+                <div class="form-group">
+                    <label>Gider Toplamı</label> :
+                    <label>@((ViewBag.GiderToplam).ToString("#,##0.00")) ₺</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="button" class="btn btn-light waves-effect" data-dismiss="modal" value="Kapat">
+                <input type="button" class="btn btn-warning save-event waves-effect waves-light" data-dismiss="modal" value="Tamam">
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Add Modal Tasarruf Kategori -->
+<div id="addTasarrufKatModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-action="EkleKat">
+                <div class="modal-header">
+                    <h4 class="modal-title"><strong class="text-info">Tasarruf Kategorisi Ekle</strong></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input name="kalemId" value="3" hidden />
+                        <input name="katAdi" class="form-control form-white" placeholder="Kategori Adı" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-light waves-effect" data-dismiss="modal" value="Kapat">
+                    <input type="submit" class="btn btn-info save-event waves-effect waves-light" value="Ekle">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Add Modal Borc Kategori -->
+<div id="addBorcKatModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-action="EkleKat">
+                <div class="modal-header">
+                    <h4 class="modal-title"><strong class="text-primary">Borç Kategorisi Ekle</strong></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input name="kalemId" value="4" hidden />
+                        <input name="katAdi" class="form-control form-white" placeholder="Kategori Adı" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-light waves-effect" data-dismiss="modal" value="Kapat">
+                    <input type="submit" class="btn btn-primary save-event waves-effect waves-light" value="Ekle">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Edit Modal Gelir -->
+<div id="editGelirModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-action="Duzenle">
+                <div class="modal-header">
+                    <h4 class="modal-title"><strong class="text-success">Düzenle</strong></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <input name="katAdi" id="katAdi" class="form-control form-white" />
+                    <input name="uyeId" id="uyeId" hidden />
+                    <input name="kalemId" id="kalemId" hidden />
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-light" data-dismiss="modal" value="Vazgeç">
+                    <input type="submit" class="btn btn-success" value="Kaydet">
+                    <input type="hidden" id="id" name="id" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Delete Modal Hepsi -->
+<div id="deleteGelirModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-action="Sil">
+                <div class="modal-header">
+                    <h4 class="modal-title">Sil</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Bu Kaydı silmek istediğinizden emin misiniz?</p>
+                    <p class="text-warning"><small>Bu işlem geri alınamaz.</small></p>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-light" data-dismiss="modal" value="Vazgeç">
+                    <input type="submit" class="btn btn-danger" value="Sil">
+                    <input type="hidden" id="id" name="id" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Delete Hayı Modal Hepsi -->
+<div id="deleteGelirModalHayir" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Bu Kategori Silinemez</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Kategoriyi silmek için önce anasayfadan eklediğiniz verileri silin</p>
+                <p class="text-warning"><small>Bu kategoriye veri eklenmiş.</small></p>
+            </div>
+            <div class="modal-footer">
+                <input type="button" class="btn btn-light" data-dismiss="modal" value="Vazgeç">
+                <input type="button" class="btn btn-danger" data-dismiss="modal" value="Tamam">
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/Chart.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            //Datatable biçimlendirdim
+            $('#myTable').DataTable({
+                "lengthMenu": [[25, 50, -1], [25, 50, "Tümü"]],
+                "order": [[0, "asc"]],
+                "language": { "url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Turkish.json" }
+            });
+
+            // Arama kutusu boş olduğunda işlem yapıyor
+            $("#filter").submit(function () {
+                $(this).find(":input").filter(function () { return !this.value; }).attr("disabled", "disabled");
+                return true;
+            });
+            $("form").find(":input").prop("disabled", false)
+
+
+            $('table #delete').on('click', function () {
+                var id = $(this).parent().find('.id').val();
+                $('#deleteGelirModal #id').val(id);
+            });
+
+            $('table #edit').on('click', function () {
+                var id = $(this).parent().find('.id').val();
+                $.ajax({
+                    type: 'GET',
+                    url: '/Kat/Getir/' + id,
+                    success: function (getir) {
+                        $('#editGelirModal #id').val(getir.katId);
+                        $('#editGelirModal #katAdi').val(getir.katAdi);
+                        $('#editGelirModal #uyeId').val(getir.uyeId);
+                        $('#editGelirModal #kalemId').val(getir.kalemId);
+                    }
+                });
+            });
+
+            //Pie Chart
+            var doughnutPieData = {
+                datasets: [{
+                    data: [@((ViewBag.Gelir).ToString("###0")), @((ViewBag.Gider).ToString("###0")), @((ViewBag.Tasarruf).ToString("###0")), @((ViewBag.Borc).ToString("###0"))],
+                    backgroundColor: [
+                        'rgba(92, 184, 92, 0.5)',
+                        'rgba(240, 173, 78, 0.5)',
+                        'rgba(2, 117, 216, 0.5)',
+                        'rgba(217, 83, 79, 0.5)'
+                    ],
+                    borderColor: [
+                        'rgba(92, 184, 92,1)',
+                        'rgba(240, 173, 78, 1)',
+                        'rgba(2, 117, 216, 1)',
+                        'rgba(217, 83, 79, 1)'
+                    ],
+                }],
+                labels: [
+                    'Gelir',
+                    'Gider',
+                    'Tasarruf',
+                    'Borç',
+                ]
+            };
+            var doughnutPieOptions = {
+                responsive: true,
+                animation: {
+                    animateScale: true,
+                    animateRotate: true
+                }
+            };
+            if ($("#pieChart").length) {
+                var pieChartCanvas = $("#pieChart").get(0).getContext("2d");
+                var pieChart = new Chart(pieChartCanvas, {
+                    type: 'pie',
+                    data: doughnutPieData,
+                    options: doughnutPieOptions
+                });
+            }
+
+            //Bar Chart
+            var doughnutBarData = {
+                labels: [
+                    'Gelir',
+                    'Gider',
+                    'Tasarruf',
+                    'Borç',
+                ],
+                datasets: [{
+                    data: [@((ViewBag.Gelir).ToString("###0")), @((ViewBag.Gider).ToString("###0")), @((ViewBag.Tasarruf).ToString("###0")), @((ViewBag.Borc).ToString("###0"))],
+                    backgroundColor: [
+                        'rgba(92, 184, 92, 0.2)',
+                        'rgba(240, 173, 78, 0.2)',
+                        'rgba(2, 117, 216, 0.2)',
+                        'rgba(217, 83, 79, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(92, 184, 92,1)',
+                        'rgba(240, 173, 78, 1)',
+                        'rgba(2, 117, 216, 1)',
+                        'rgba(217, 83, 79, 1)'
+                    ],
+                    borderWidth: 1,
+                    fill: false
+                }]
+            };
+
+            var doughnutBarOptions = {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                },
+                legend: {
+                    display: false
+                },
+                elements: {
+                    point: {
+                        radius: 0
+                    }
+                }
+
+            };
+
+            if ($("#barChart").length) {
+                var barChartCanvas = $("#barChart").get(0).getContext("2d");
+                // This will get the first returned node in the jQuery collection.
+                var barChart = new Chart(barChartCanvas, {
+                    type: 'bar',
+                    data: doughnutBarData,
+                    options: doughnutBarOptions
+                });
+            }
+
+        });
+    </script>
+}

@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Kasa>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover" id="myTable" style="width:100%">
+                <thead>
+                    <tr>
+                        <th hidden>Tarih</th>
+                        <th>Tarih</th>
+                        <th>Ne</th>
+                        <th>Açıklama</th>
+                        <th>Tutar</th>
+                        <th>Düzenle</th>
+                        <th>Sil</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="@(item.Kat.KalemId==1?"text-success":item.Kat.KalemId==2?"text-warning":item.Kat.KalemId==3?"text-info":"text-primary")">
+                            <td hidden>@item.KasaTarih.ToString("yyyy-MM-dd")</td>
+                            <td>@item.KasaTarih.ToString("dd.MM.yyyy")</td>
+                            <td>@item.Kat.KatAdi</td>
+                            <td>@item.KasaAciklama</td>
+                            <td>@item.KasaTutar.ToString("###0.00") ₺</td>
+                            <td>
+                                <a class="@(item.Kat.KalemId==1?"text-success":item.Kat.KalemId==2?"text-warning":item.Kat.KalemId==3?"text-info":"text-primary")" href="@(item.Kat.KalemId==1?"#editGelirModal":item.Kat.KalemId==2?"#editGiderModal":item.Kat.KalemId==3?"#editTasarrufModal":"#editBorcModal")" id="edit" data-toggle="modal">
+                                    <input type="hidden" class="id" value="@item.KasaId" />
+                                    <input type="hidden" class="kalemid" value="@item.Kat.KalemId" />
+                                    <i class="typcn typcn-edit btn-icon-prepend" data-toggle="tooltip" title="Düzenle"></i>
+                                </a>
+                                <a asp-controller="Anasayfa" asp-action="Edit" asp-route-id="@item.KasaId" target="_blank"><i class="typcn typcn-edit btn-icon-prepend" title="Edit"></i></a>
+                                @if (item.Kat.KalemId == 4)
+                                {
+                                    <span class="text-black-50">|</span>
+                                    <a class="text-primary" href="#odeBorcModal" id="ode" data-toggle="modal">
+                                        <input type="hidden" class="id" value="@item.KasaId" />
+                                        <input type="hidden" class="kalemid" value="@item.Kat.KalemId" />
+                                        <i class="typcn typcn-archive btn-icon-prepend" data-toggle="tooltip" title="Borç Öde"></i>
+                                    </a>
+                                }
+                            </td>
+                            <td>
+                                <a class="@(item.Kat.KalemId==1?"text-success":item.Kat.KalemId==2?"text-warning":item.Kat.KalemId==3?"text-info":"text-primary")" href="#deleteGelirModal" id="delete" data-toggle="modal">
+                                    <input type="hidden" class="id" value="@item.KasaId" />
+                                    <i class="typcn typcn-delete btn-icon-prepend" data-toggle="tooltip" title="Sil"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

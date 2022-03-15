@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Param Emrimde - @ViewBag.Title</title>
+    <!-- base:css -->
+    <link rel="stylesheet" href="~/css/font/typicons.css">
+    <link rel="stylesheet" href="~/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="~/css/style.css">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="~/img/favicon.png" />
+    <!-- Datatable -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" />
+    <!-- Açılır Takvim // datepicker -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+</head>
+<body>
+    <div class="container-scroller">
+        <!-- Ust Menü -->
+        @await Component.InvokeAsync("UstMenu")
+        <!-- //Ust Menü -->
+        <!-- partial -->
+        <div class="container-fluid page-body-wrapper">
+            <!-- Setting -->
+            @await Component.InvokeAsync("Filter")
+            <!-- //Setting -->
+            <!-- Sol Menü -->
+            @await Component.InvokeAsync("SolMenu")
+            <!-- //Sol Menü -->
+            <div class="main-panel">
+                <!-- İçerik -->
+                @RenderBody()
+                <!-- //İçerik -->
+                <!-- Alt Menü -->
+                <partial name="_Zalt" />
+                <!-- Alt Menü -->
+            </div>
+        </div>
+    </div>
+    <script src="~/js/vendor.bundle.base.js"></script>
+    <script src="~/js/off-canvas.js"></script>
+    <script src="~/js/hoverable-collapse.js"></script>
+    <script src="~/js/template.js"></script>
+    <script src="~/js/settings.js"></script>
+    <script src="~/js/todolist.js"></script>
+    <!-- Datatable -->
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+
+    <!-- Açılır Takvim // datepicker -->
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+    <script>
+        $(function () {
+            $("#datepicker1").datepicker({
+                dateFormat: "dd.mm.yy",
+                altFormat: "yy-mm-dd",
+                altField: "#tarih-db1",
+                monthNames: ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"],
+                dayNamesMin: ["Pa", "Pt", "Sl", "Ça", "Pe", "Cu", "Ct"],
+                firstDay: 1
+            });
+            $("#datepicker2").datepicker({
+                dateFormat: "dd.mm.yy",
+                altFormat: "yy-mm-dd",
+                altField: "#tarih-db2",
+                monthNames: ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"],
+                dayNamesMin: ["Pa", "Pt", "Sl", "Ça", "Pe", "Cu", "Ct"],
+                firstDay: 1
+            });
+        });
+    </script>
+    <!-- #Açılır Takvim // datepicker -->
+    <!-- Sayfadaki Scripleri Bağla -->
+    @RenderSection("Scripts", required: false)
+</body>
+
+</html>

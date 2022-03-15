@@ -1,0 +1,66 @@
+﻿@{
+    List<ParamEmrimde.Controllers.DovizController.DovizKuruAl> dovizler = ViewBag.dovizler as List<ParamEmrimde.Controllers.DovizController.DovizKuruAl>; // as ile model i seçiyoruz ki aşağıda foreach işleminde Unit, Isim, CurrenyName gibi değerleri intellisense özelliği ile görebilelim.
+}
+
+@{
+    ViewData["Title"] = "Döviz Kurları";
+}
+
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-lg-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover" id="myTable" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Döviz Kodu</th>
+                                    <th>Birim</th>
+                                    <th>Döviz Cinsi</th>
+                                    <th>Döviz Alış</th>
+                                    <th>Döviz Satış</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var d in dovizler)
+                                {
+
+                                    if (d.CurrencyCode != "XDR")
+                                    {
+
+                                        string img = "http://www.tcmb.gov.tr/kurlar/kurlar_tr_dosyalar/images/" + d.CurrencyCode + ".gif";
+
+                                        <tr>
+                                            <td>
+                                                <img src="@img" />
+                                                @d.CurrencyCode / TRY
+                                            </td>
+                                            <td>@d.Unit</td>
+                                            <td>@d.Isim</td>
+                                            <td>@d.ForexBuying</td>
+                                            <td>@d.ForexSelling</td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            //Datatable biçimlendirdim
+            $('#myTable').DataTable({
+                "lengthMenu": [[25, 50, -1], [25, 50, "Tümü"]],
+                "order": [],
+                "language": { "url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Turkish.json" }
+            });
+        });
+    </script>
+}

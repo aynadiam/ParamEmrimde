@@ -1,0 +1,47 @@
+﻿@model Uye
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Profil</h4>
+                   <hr />
+                   <form class="forms-sample" asp-action="Index">
+                       <input type="hidden" asp-for="UyeId" />
+                       <div class="form-group">
+                           <label asp-for="UyeAdi" class="control-label"></label>
+                           <input asp-for="UyeAdi" class="form-control" />
+                       </div>
+                       <div class="form-group">
+                           <label asp-for="UyeSoyadi" class="control-label"></label>
+                           <input asp-for="UyeSoyadi" class="form-control" />
+                       </div>
+                       <div class="form-group">
+                           <label asp-for="UyeEposta" class="control-label">Üye Eposta / Kullanıcı Adı</label>
+                           <input type="email" asp-for="UyeEposta" class="form-control" />
+                       </div>
+                       <div class="form-group">
+                           <label asp-for="UyeSifre" class="control-label"></label>
+                           <input type="password" asp-for="UyeSifre" class="form-control" />
+                       </div>
+                       @if (TempData["Tamam"] != null)
+                       {                           
+                            <b>@TempData["Tamam"].ToString()</b> <a class="btn btn-primary mr-2" asp-action="Index">Tamam</a>                          
+                       }
+                       else
+                       {
+                           <button type="submit" class="btn btn-success mr-2">Güncelle</button>
+                       }
+                   </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- content-wrapper ends -->

@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Uye>
+
+
+@{
+    ViewData["Title"] = "Üye Listesi";
+}
+
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-lg-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover" id="myTable" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Adı</th>
+                                    <th>Soyadı</th>
+                                    <th>Kullanıcı Adı</th>
+                                    <th>Şifre</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.UyeId</td>
+                                        <td>@item.UyeAdi</td>
+                                        <td>@item.UyeSoyadi</td>
+                                        <td>@item.UyeEposta</td>
+                                        <td>@item.UyeSifre</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            //Datatable biçimlendirdim
+            $('#myTable').DataTable({
+                "lengthMenu": [[25, 50, -1], [25, 50, "Tümü"]],
+                "order": [],
+                "language": { "url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Turkish.json" }
+            });
+        });
+    </script>
+}
+

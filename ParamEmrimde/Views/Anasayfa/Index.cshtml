@@ -1,0 +1,239 @@
+﻿@{
+    ViewData["Title"] = "Anasayfa";
+}
+
+<div class="content-wrapper">
+    <div class="row">
+        <div class="col-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="row">
+                    <div class="col-6 col-lg-3">
+                        <div class="card-body">
+                            <h4 class="card-title text-success">Gelir</h4>
+                            <p class="display-5 text-success">
+                                @((ViewBag.Gelir).ToString("#,##0.00")) ₺
+                            </p>
+                            <div class="template-demo">
+                                <button type="button" class="btn btn-success btn-icon-text btn-sm" data-toggle="modal" href="#addGelirModal">
+                                    <i class="typcn typcn-plus btn-icon-prepend"></i>
+                                    Ekle
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3">
+                        <div class="card-body">
+                            <h4 class="card-title text-warning">Gider</h4>
+                            <p class="display-5 text-warning">
+                                @((ViewBag.Gider).ToString("#,##0.00")) ₺
+                            </p>
+                            <div class="template-demo">
+                                <button type="button" class="btn btn-warning btn-icon-text btn-sm" data-toggle="modal" href="#addGiderModal">
+                                    <i class="typcn typcn-plus btn-icon-prepend"></i>
+                                    Ekle
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3">
+                        <div class="card-body">
+                            <h4 class="card-title text-info">Tasarruf</h4>
+                            <p class="display-5 text-info">
+                                @((ViewBag.Tasarruf).ToString("#,##0.00")) ₺
+                            </p>
+                            <div class="template-demo">
+                                <button type="button" class="btn btn-info btn-icon-text btn-sm" data-toggle="modal" href="#addTasarrufModal">
+                                    <i class="typcn typcn-plus btn-icon-prepend"></i>
+                                    Ekle
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3">
+                        <div class="card-body">
+                            <h4 class="card-title text-primary">Borç</h4>
+                            <p class="display-5 text-primary">
+                                @((ViewBag.Borc).ToString("#,##0.00")) ₺
+                            </p>
+                            <div class="template-demo">
+                                <button type="button" class="btn btn-primary btn-icon-text btn-sm" data-toggle="modal" href="#addBorcModal">
+                                    <i class="typcn typcn-plus btn-icon-prepend"></i>
+                                    Ekle
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 grid-margin stretch-card">
+            <div class="card bg-secondary">
+                <div class="card-body text-center">
+                    <h1 class="text-white">Kalan : @((ViewBag.Kalan).ToString("#,##0.00")) ₺</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 grid-margin stretch-card">
+            @if (ViewData["tarihKucuk"] != null || ViewData["tarihBuyuk"] != null || ViewData["kategori"] != null || ViewData["name"] != null || ViewData["price"] != null || ViewData["kalem"] != null)
+            {
+                @await Component.InvokeAsync("KasaList", new { tarihKucuk = @ViewData["tarihKucuk"], tarihBuyuk = @ViewData["tarihBuyuk"], kategori = @ViewData["kategori"], name = @ViewData["name"], price = @ViewData["price"], kalem = @ViewData["kalem"] })
+            }
+            else
+            {
+                @await Component.InvokeAsync("KasaListTop")
+            }
+
+        </div>
+        <!-- Modal - gelir - Ekle -->
+        <partial name="_EklePartial" />
+        <!-- /#gelir-modal -->
+    </div>
+</div>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+
+            // Arama kutusu baş olduğunda işlem yapıyor
+            $("#filter").submit(function () {
+                $(this).find(":input").filter(function () { return !this.value; }).attr("disabled", "disabled");
+                return true;
+            });
+            $("form").find(":input").prop("disabled", false)
+
+            //Datatable biçimlendirdim
+            $('#myTable').DataTable({
+                "lengthMenu": [[25, 50, -1], [25, 50, "Tümü"]],
+                "order": [[0, "desc"]],
+                "language": { "url": "https://cdn.datatables.net/plug-ins/1.10.12/i18n/Turkish.json" }
+            });
+
+            //Sadece sayı ve virgül girebilirsin
+            $("#addGelirModal #sayisalinput").keyup(function () {
+                if (this.value.match(/[^0-9,]/g)) {
+                    this.value = this.value.replace(/[^0-9,]/g, '');
+                }
+            });
+
+            //Sadece sayı ve virgül girebilirsin
+            $("#addGiderModal #sayisalinput").keyup(function () {
+                if (this.value.match(/[^0-9,]/g)) {
+                    this.value = this.value.replace(/[^0-9,]/g, '');
+                }
+            });
+
+            //Sadece sayı ve virgül girebilirsin
+            $("#addTasarrufModal #sayisalinput").keyup(function () {
+                if (this.value.match(/[^0-9,]/g)) {
+                    this.value = this.value.replace(/[^0-9,]/g, '');
+                }
+            });
+
+            //Sadece sayı ve virgül girebilirsin
+            $("#addBorcModal #sayisalinput").keyup(function () {
+                if (this.value.match(/[^0-9,]/g)) {
+                    this.value = this.value.replace(/[^0-9,]/g, '');
+                }
+            });
+
+            //Sadece sayı ve virgül girebilirsin
+            $("#editGelirModal #kasaTutar").keyup(function () {
+                if (this.value.match(/[^0-9,.]/g)) {
+                    this.value = this.value.replace(/[^0-9,.]/g, '');
+                }
+            });
+
+            //Sadece sayı ve virgül girebilirsin
+            $("#editGiderModal #kasaTutar").keyup(function () {
+                if (this.value.match(/[^0-9,]/g)) {
+                    this.value = this.value.replace(/[^0-9,]/g, '');
+                }
+            });
+
+            //Sadece sayı ve virgül girebilirsin
+            $("#editTasarrufModal #kasaTutar").keyup(function () {
+                if (this.value.match(/[^0-9,]/g)) {
+                    this.value = this.value.replace(/[^0-9,]/g, '');
+                }
+            });
+
+            //Sadece sayı ve virgül girebilirsin
+            $("#editBorcModal #kasaTutar").keyup(function () {
+                if (this.value.match(/[^0-9,]/g)) {
+                    this.value = this.value.replace(/[^0-9,]/g, '');
+                }
+            });
+
+
+            // Activate tooltip
+            $('[data-toggle="tooltip"]').tooltip();
+
+            $('table #delete').on('click', function () {
+                var id = $(this).parent().find('.id').val();
+                $('#deleteGelirModal #id').val(id);
+            });
+
+            $('table #edit').on('click', function () {
+                var kalemid = $(this).parent().find('.kalemid').val();
+                $('#editGelirModal #kalemid').val(kalemid);
+                $('#editGiderModal #kalemid').val(kalemid);
+                $('#editTasarrufModal #kalemid').val(kalemid);
+                $('#editBorcModal #kalemid').val(kalemid);
+
+                var id = $(this).parent().find('.id').val();
+                $.ajax({
+                    type: 'GET',
+                    url: '/Anasayfa/Getir/' + id,
+                    success: function (getir) {
+                        if (kalemid == 1) {
+                            $('#editGelirModal #id').val(getir.kasaId);
+                            $('#editGelirModal #kasaTarih').val(getir.kasaTarih);
+                            $('#editGelirModal #katId').val(getir.katId);
+                            $('#editGelirModal #kasaTutar').val(getir.kasaTutar);
+                            $('#editGelirModal #kasaAciklama').val(getir.kasaAciklama);
+                        }
+                        else if (kalemid == 2) {
+                            $('#editGiderModal #id').val(getir.kasaId);
+                            $('#editGiderModal #kasaTarih').val(getir.kasaTarih);
+                            $('#editGiderModal #katId').val(getir.katId);
+                            $('#editGiderModal #kasaTutar').val(getir.kasaTutar);
+                            $('#editGiderModal #kasaAciklama').val(getir.kasaAciklama);
+                        }
+                        else if (kalemid == 3) {
+                            $('#editTasarrufModal #id').val(getir.kasaId);
+                            $('#editTasarrufModal #kasaTarih').val(getir.kasaTarih);
+                            $('#editTasarrufModal #katId').val(getir.katId);
+                            $('#editTasarrufModal #kasaTutar').val(getir.kasaTutar);
+                            $('#editTasarrufModal #kasaAciklama').val(getir.kasaAciklama);
+                        }
+                        else if (kalemid == 4) {
+                            $('#editBorcModal #id').val(getir.kasaId);
+                            $('#editBorcModal #kasaTarih').val(getir.kasaTarih);
+                            $('#editBorcModal #katId').val(getir.katId);
+                            $('#editBorcModal #kasaTutar').val(getir.kasaTutar);
+                            $('#editBorcModal #kasaAciklama').val(getir.kasaAciklama);
+                        }
+                    }
+                });
+            });
+
+            $('table #ode').on('click', function () {
+                var kalemid = $(this).parent().find('.kalemid').val();
+                $('#odeBorcModal #kalemid').val(kalemid);
+
+                var id = $(this).parent().find('.id').val();
+                $.ajax({
+                    type: 'GET',
+                    url: '/Home/Getir/' + id,
+                    success: function (getir) {
+                        $('#odeBorcModal #id').val(getir.kasaId);
+                        $('#odeBorcModal #kasaTarih').val(getir.kasaTarih);
+                        $('#odeBorcModal #katId').val(getir.katId);
+                        $('#odeBorcModal #kasaTutar').val(getir.kasaTutar);
+                        $('#odeBorcModal #kasaAciklama').val(getir.kasaAciklama);
+                    }
+                });
+            });
+
+        });
+    </script>
+}

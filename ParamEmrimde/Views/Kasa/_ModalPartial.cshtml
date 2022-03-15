@@ -1,0 +1,290 @@
+﻿<!-- Add Modal Gelir -->
+<div id="addGelirModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-controller="Kasa" asp-action="Ekle">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title"><strong>Gelir Ekle</strong></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input name="kasaTarih" class="form-control form-white" placeholder="Tarih" type="date" required>
+                    </div>
+                    <div class="form-group">
+                        <select name="katId" class="form-control form-white" asp-items="ViewBag.KatGelir" required>
+                            <option value="">Kategori Seçiniz...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input name="kasaTutar" id="sayisalinput" class="form-control form-white" placeholder="Tutar Giriniz" required>
+                    </div>
+                    <div class="form-group">
+                        <input name="kasaAciklama" class="form-control form-white" placeholder="Açıklama" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default waves-effect" data-dismiss="modal" value="Kapat">
+                    <input type="submit" class="btn btn-success save-event waves-effect waves-light" value="Ekle">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Add Modal Gider -->
+<div id="addGiderModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-controller="Kasa" asp-action="Ekle">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title"><strong>Gider Ekle</strong></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input name="kasaTarih" class="form-control form-white" placeholder="Tarih" type="date" required>
+                    </div>
+                    <div class="form-group">
+                        <select name="katId" class="form-control form-white" asp-items="ViewBag.KatGider" required>
+                            <option value="">Kategori Seçiniz...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input name="kasaTutar" id="sayisalinput" class="form-control form-white" placeholder="Tutar Giriniz" required>
+                    </div>
+                    <div class="form-group">
+                        <input name="kasaAciklama" class="form-control form-white" placeholder="Açıklama" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default waves-effect" data-dismiss="modal" value="Kapat">
+                    <input type="submit" class="btn btn-success save-event waves-effect waves-light" value="Ekle">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Add Modal Tasarruf -->
+<div id="addTasarrufModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-controller="Kasa" asp-action="Ekle">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title"><strong>Tasarruf Ekle</strong></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input name="kasaTarih" class="form-control form-white" placeholder="Tarih" type="date" required>
+                    </div>
+                    <div class="form-group">
+                        <select name="katId" class="form-control form-white" asp-items="ViewBag.KatTasarruf" required>
+                            <option value="">Kategori Seçiniz...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input name="kasaTutar" id="sayisalinput" class="form-control form-white" placeholder="Tutar Giriniz" required>
+                    </div>
+                    <div class="form-group">
+                        <input name="kasaAciklama" class="form-control form-white" placeholder="Açıklama" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default waves-effect" data-dismiss="modal" value="Kapat">
+                    <input type="submit" class="btn btn-success save-event waves-effect waves-light" value="Ekle">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Add Modal Borc -->
+<div id="addBorcModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-controller="Kasa" asp-action="Ekle">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title"><strong>Borç Ekle</strong></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input name="kasaTarih" class="form-control form-white" placeholder="Tarih" type="date" required>
+                    </div>
+                    <div class="form-group">
+                        <select name="katId" class="form-control form-white" asp-items="ViewBag.KatBorc" required>
+                            <option value="">Kategori Seçiniz...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input name="kasaTutar" id="sayisalinput" class="form-control form-white" placeholder="Tutar Giriniz" required>
+                    </div>
+                    <div class="form-group">
+                        <input name="kasaAciklama" class="form-control form-white" placeholder="Açıklama" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default waves-effect" data-dismiss="modal" value="Kapat">
+                    <input type="submit" class="btn btn-success save-event waves-effect waves-light" value="Ekle">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Edit Modal Gelir -->
+<div id="editGelirModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-controller="Kasa" asp-action="Duzenle">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title"><strong>Gelir Düzenle</strong></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input class="form-control form-white" required name="kasaTarih" id="kasaTarih">
+                    </div>
+                    <div class="form-group">
+                        <select name="katId" id="katId" class="form-control form-white" asp-items="ViewBag.KatGelir">
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control form-white" required name="kasaTutar" id="kasaTutar">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control form-white" name="kasaAciklama" id="kasaAciklama" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Vazgeç">
+                    <input type="submit" class="btn btn-info" value="Kaydet">
+                    <input type="hidden" id="id" name="id" />
+                    <input type="hidden" id="kalemid" name="kalemid" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Edit Modal Gider -->
+<div id="editGiderModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-controller="Kasa" asp-action="Duzenle">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title"><strong>Gider Düzenle</strong></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input class="form-control form-white" required name="kasaTarih" id="kasaTarih">
+                    </div>
+                    <div class="form-group">
+                        <select name="katId" id="katId" class="form-control form-white" asp-items="ViewBag.KatGider">
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control form-white" required name="kasaTutar" id="kasaTutar">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control form-white" name="kasaAciklama" id="kasaAciklama" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Vazgeç">
+                    <input type="submit" class="btn btn-info" value="Kaydet">
+                    <input type="hidden" id="id" name="id" />
+                    <input type="hidden" id="kalemid" name="kalemid" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Edit Modal Tasarruf -->
+<div id="editTasarrufModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-controller="Kasa" asp-action="Duzenle">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title"><strong>Tasarruf Düzenle</strong></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input class="form-control form-white" required name="kasaTarih" id="kasaTarih">
+                    </div>
+                    <div class="form-group">
+                        <select name="katId" id="katId" class="form-control form-white" asp-items="ViewBag.KatTasarruf">
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control form-white" required name="kasaTutar" id="kasaTutar">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control form-white" name="kasaAciklama" id="kasaAciklama" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Vazgeç">
+                    <input type="submit" class="btn btn-info" value="Kaydet">
+                    <input type="hidden" id="id" name="id" />
+                    <input type="hidden" id="kalemid" name="kalemid" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Edit Modal Borc -->
+<div id="editBorcModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-controller="Kasa" asp-action="Duzenle">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title"><strong>Borç Düzenle</strong></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input class="form-control form-white" required name="kasaTarih" id="kasaTarih">
+                    </div>
+                    <div class="form-group">
+                        <select name="katId" id="katId" class="form-control form-white" asp-items="ViewBag.KatBorc">
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control form-white" required name="kasaTutar" id="kasaTutar">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control form-white" name="kasaAciklama" id="kasaAciklama" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Vazgeç">
+                    <input type="submit" class="btn btn-info" value="Kaydet">
+                    <input type="hidden" id="id" name="id" />
+                    <input type="hidden" id="kalemid" name="kalemid" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Delete Modal Hepsi -->
+<div id="deleteGelirModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-controller="kasa" asp-action="Sil">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Sil</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Bu Kaydı silmek istediğinizden emin misiniz?</p>
+                    <p class="text-warning"><small>Bu işlem geri alınamaz.</small></p>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Vazgeç">
+                    <input type="submit" class="btn btn-danger" value="Sil">
+                    <input type="hidden" id="id" name="id" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
